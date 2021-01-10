@@ -1,16 +1,42 @@
 package ch4
 
-fun main() {
-    /* 중위 함수(infix): 클래스의 멤버 호출시 . 생략
-     * 조건 1. 멤버 메서드 또는 확장 함수
-     * 2. 하나의 매개변수를 가져야 함
-     * 3. infix 키워드를 사용하여 정의
-     */
+// 함수의 범위: 최상위 함수, 지역 함수
+fun a() = b()  // 최상위 함수이므로 선언 가능
+fun b() = println("b")
 
-    val multi = 3.multiply(10)  // 일반 표현법
-    val multi2 = 3 multiply 10
+var global = 10
 
-    println()
+fun c() {
+    //fun d() = e()  // 오류(지역함수이므로)
+    fun e() = println("e")
 }
 
-infix fun Int.multiply(x:Int):Int = this * x
+fun main() {
+    a()
+    //e()  // 지역함수이므로 c 내에서만 사용 가능
+
+    fun localFunc1() {
+        println("localFunc1")
+    }
+
+    localFunc1()
+
+    global = 15
+    val local1 = 15
+    println("global = $global")
+    userFunc()
+    println("final - global = $global, local1 = $local1")
+}
+
+fun userFunc() {
+    global = 20
+    val local1 = 20
+    println("userFunc - global = $global, local1 = $local1")
+}
+
+// 전역 변수: 메모리에 유지
+// 지역 변수: 스택 메모리에 유지(함수 정보도 스택 메모리에 유지되며 프레임 정보라고 부름)
+
+fun more(out: (String) -> String) {
+    println(out("Hello"))
+}
